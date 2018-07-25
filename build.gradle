@@ -22,6 +22,7 @@ buildscript {
 apply plugin: 'antlr'
 apply plugin: 'kotlin'
 apply plugin: 'java'
+apply plugin: 'maven'
 
 repositories {
     mavenCentral()
