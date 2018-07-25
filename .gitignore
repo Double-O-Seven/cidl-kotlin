@@ -5,5 +5,5 @@ out
 .project
 .classpath
 .idea
-backend.iml
+cidl-kotlin.iml
 **/.settings/*
