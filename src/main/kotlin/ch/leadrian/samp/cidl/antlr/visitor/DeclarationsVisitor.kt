@@ -1,20 +1,20 @@
-package ch.leadrian.samp.cidl.visitor
+package ch.leadrian.samp.cidl.antlr.visitor
 
-import ch.leadrian.samp.cidl.CIDLBaseVisitor
-import ch.leadrian.samp.cidl.CIDLParser
+import ch.leadrian.samp.cidl.antlr.CIDLBaseVisitor
+import ch.leadrian.samp.cidl.antlr.CIDLParser
 import ch.leadrian.samp.cidl.model.Constant
-import ch.leadrian.samp.cidl.model.Declarations
 import ch.leadrian.samp.cidl.model.Function
+import ch.leadrian.samp.cidl.model.InterfaceDefinitionUnit
 
 class DeclarationsVisitor(
         private val constantDeclarationVisitor: ConstantDeclarationVisitor,
         private val functionDeclarationVisitor: FunctionDeclarationVisitor
-) : CIDLBaseVisitor<Declarations>() {
+) : CIDLBaseVisitor<InterfaceDefinitionUnit>() {
 
-    override fun visitDeclarations(ctx: CIDLParser.DeclarationsContext): Declarations {
+    override fun visitDeclarations(ctx: CIDLParser.DeclarationsContext): InterfaceDefinitionUnit {
         val constants: List<Constant> = visitContantDeclarations(ctx)
         val functions: List<Function> = visitFunctionDeclarations(ctx)
-        return Declarations(
+        return InterfaceDefinitionUnit(
                 constants = constants,
                 functions = functions
         )

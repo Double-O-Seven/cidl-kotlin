@@ -1,22 +1,37 @@
 package ch.leadrian.samp.cidl.parser
 
-import ch.leadrian.samp.cidl.CIDLLexer
-import ch.leadrian.samp.cidl.CIDLParser
-import ch.leadrian.samp.cidl.model.Declarations
-import ch.leadrian.samp.cidl.visitor.*
+import ch.leadrian.samp.cidl.antlr.CIDLLexer
+import ch.leadrian.samp.cidl.antlr.CIDLParser
+import ch.leadrian.samp.cidl.antlr.visitor.*
+import ch.leadrian.samp.cidl.model.Constant
+import ch.leadrian.samp.cidl.model.Function
+import ch.leadrian.samp.cidl.model.InterfaceDefinitionUnit
 import org.antlr.v4.runtime.ANTLRInputStream
 import org.antlr.v4.runtime.CommonTokenStream
 import java.io.InputStream
 
-class DeclarationsParser {
+class InterfaceDefinitionParser {
 
-    fun parse(inputStream: InputStream): Declarations {
+    fun parse(inputStream: InputStream): InterfaceDefinitionUnit {
         val declarationsVisitor = getDeclarationsVisitor()
         val cidlParser = ANTLRInputStream(inputStream)
                 .let { CIDLLexer(it) }
                 .let { CommonTokenStream(it) }
                 .let { CIDLParser(it) }
         return declarationsVisitor.visit(cidlParser.declarations())
+    }
+
+    fun parse(vararg sources: InterfaceDefinitionSource): InterfaceDefinitionUnit {
+        val constants: MutableList<Constant> = mutableListOf()
+        val functions: MutableList<Function> = mutableListOf()
+        sources.forEach { source ->
+            source.getInputStream().use {
+                val declarations = parse(it)
+                constants += declarations.constants
+                functions += declarations.functions
+            }
+        }
+        return InterfaceDefinitionUnit(constants, functions)
     }
 
     private fun getDeclarationsVisitor(): DeclarationsVisitor {

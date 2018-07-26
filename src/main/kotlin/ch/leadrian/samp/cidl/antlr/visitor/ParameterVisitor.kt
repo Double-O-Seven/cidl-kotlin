@@ -1,7 +1,7 @@
-package ch.leadrian.samp.cidl.visitor
+package ch.leadrian.samp.cidl.antlr.visitor
 
-import ch.leadrian.samp.cidl.CIDLBaseVisitor
-import ch.leadrian.samp.cidl.CIDLParser
+import ch.leadrian.samp.cidl.antlr.CIDLBaseVisitor
+import ch.leadrian.samp.cidl.antlr.CIDLParser
 import ch.leadrian.samp.cidl.exception.TypeMismatchException
 import ch.leadrian.samp.cidl.model.Parameter
 import ch.leadrian.samp.cidl.model.Value

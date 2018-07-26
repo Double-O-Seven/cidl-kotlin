@@ -1,4 +1,4 @@
-package ch.leadrian.samp.cidl.visitor
+package ch.leadrian.samp.cidl.antlr.visitor
 
 import ch.leadrian.samp.cidl.model.Constant
 

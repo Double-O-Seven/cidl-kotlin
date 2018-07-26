@@ -1,7 +1,7 @@
 grammar CIDL;
 
 @header {
-package ch.leadrian.samp.cidl;
+package ch.leadrian.samp.cidl.antlr;
 }
 
 declarations

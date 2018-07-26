@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.ValueSource
 import java.io.InputStream
 import java.util.stream.Stream
 
-internal class DeclarationsParserTest {
+internal class InterfaceDefinitionParserTest {
 
     @ParameterizedTest
     @ValueSource(strings = [
@@ -25,7 +25,7 @@ internal class DeclarationsParserTest {
     ])
     fun shouldParseReferenceIDLs(idlResourceFileName: String) {
         getResourceAsStream(idlResourceFileName).use {
-            val declarationsParser = DeclarationsParser()
+            val declarationsParser = InterfaceDefinitionParser()
 
             declarationsParser.parse(it)
         }
@@ -33,14 +33,14 @@ internal class DeclarationsParserTest {
 
     @ParameterizedTest
     @ArgumentsSource(IDLArgumentsProvider::class)
-    fun shouldParseValidIDLString(idlString: String, expectedDeclarations: Declarations) {
+    fun shouldParseValidIDLString(idlString: String, expectedInterfaceDefinitionUnit: InterfaceDefinitionUnit) {
         idlString.byteInputStream().use {
-            val declarationsParser = DeclarationsParser()
+            val declarationsParser = InterfaceDefinitionParser()
 
             val declarations = declarationsParser.parse(it)
 
             assertThat(declarations)
-                    .isEqualTo(expectedDeclarations)
+                    .isEqualTo(expectedInterfaceDefinitionUnit)
         }
     }
 
@@ -56,7 +56,7 @@ internal class DeclarationsParserTest {
 
                                     [native] bool GetObjectRot(int objectid, [out] float rotX, [out] float rotY, [out] float rotZ);
                                     """.trimIndent(),
-                                expectedDeclarations = Declarations(
+                                expectedInterfaceDefinitionUnit = InterfaceDefinitionUnit(
                                         constants = listOf(
                                                 Constant(
                                                         type = "int",
@@ -126,7 +126,7 @@ internal class DeclarationsParserTest {
                         ),
                         IDLArguments(
                                 idlString = "// [native] int CreateActor(int modelid, float x, float y, float z, float rotation);",
-                                expectedDeclarations = Declarations()
+                                expectedInterfaceDefinitionUnit = InterfaceDefinitionUnit()
                         ),
                         IDLArguments(
                                 idlString = """
@@ -134,11 +134,11 @@ internal class DeclarationsParserTest {
                                     const int HTTP_ERROR_MALFORMED_RESPONSE = 6;
                                     */
                                     """.trimIndent(),
-                                expectedDeclarations = Declarations()
+                                expectedInterfaceDefinitionUnit = InterfaceDefinitionUnit()
                         ),
                         IDLArguments(
                                 idlString = "// const int HTTP_ERROR_MALFORMED_RESPONSE = 6;",
-                                expectedDeclarations = Declarations()
+                                expectedInterfaceDefinitionUnit = InterfaceDefinitionUnit()
                         ),
                         IDLArguments(
                                 idlString = """
@@ -146,11 +146,11 @@ internal class DeclarationsParserTest {
                                     [native] int CreateActor(int modelid, float x, float y, float z, float rotation);
                                     */
                                     """.trimIndent(),
-                                expectedDeclarations = Declarations()
+                                expectedInterfaceDefinitionUnit = InterfaceDefinitionUnit()
                         ),
                         IDLArguments(
                                 idlString = "// [native] int CreateActor(int modelid, float x, float y, float z, float rotation);",
-                                expectedDeclarations = Declarations()
+                                expectedInterfaceDefinitionUnit = InterfaceDefinitionUnit()
                         ),
                         IDLArguments(
                                 idlString = """
@@ -158,7 +158,7 @@ internal class DeclarationsParserTest {
                                     [native] int CreateActor(int modelid, float x, float y, float z, float rotation);
                                     */
                                     """.trimIndent(),
-                                expectedDeclarations = Declarations()
+                                expectedInterfaceDefinitionUnit = InterfaceDefinitionUnit()
                         ),
                         IDLArguments(
                                 idlString = """
@@ -171,7 +171,7 @@ internal class DeclarationsParserTest {
                                         float rotation
                                     );
                                     """.trimIndent(),
-                                expectedDeclarations = Declarations(
+                                expectedInterfaceDefinitionUnit = InterfaceDefinitionUnit(
                                         functions = listOf(Function(
                                                 type = "int",
                                                 name = "CreateActor",
@@ -209,7 +209,7 @@ internal class DeclarationsParserTest {
                                        string data,
                                        [in, bind("OnHTTPResponse")] string callback);
                                     """.trimIndent(),
-                                expectedDeclarations = Declarations(
+                                expectedInterfaceDefinitionUnit = InterfaceDefinitionUnit(
                                         functions = listOf(Function(
                                                 type = "bool",
                                                 name = "HTTP",
@@ -255,10 +255,10 @@ internal class DeclarationsParserTest {
 
     private class IDLArguments(
             val idlString: String,
-            val expectedDeclarations: Declarations
+            val expectedInterfaceDefinitionUnit: InterfaceDefinitionUnit
     ) : Arguments {
 
-        override fun get(): Array<Any> = arrayOf(idlString, expectedDeclarations)
+        override fun get(): Array<Any> = arrayOf(idlString, expectedInterfaceDefinitionUnit)
 
     }
 
