@@ -1,5 +1,5 @@
 version "${version}"
-group 'ch.leadrian.samp.cidl'
+group 'ch.leadrian.samp.kamp'
 
 buildscript {
     ext {
