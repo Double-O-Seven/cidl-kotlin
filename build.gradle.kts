@@ -23,6 +23,7 @@ plugins {
     `maven-publish`
     signing
     kotlin("jvm") version "1.3.11"
+    id("org.jetbrains.dokka") version "0.9.17"
     id("com.palantir.git-version") version "0.12.0-rc2"
 }
 
@@ -40,7 +41,7 @@ tasks.register<Jar>("sourcesJar") {
 }
 
 tasks.register<Jar>("javadocJar") {
-    from(tasks.javadoc)
+    from(tasks.dokka)
     archiveClassifier.set("javadoc")
 }
 
@@ -64,6 +65,10 @@ tasks {
     generateGrammarSource {
         maxHeapSize = "64m"
         arguments = listOf("-visitor", "-long-messages")
+    }
+
+    dokka {
+        reportUndocumented = false
     }
 
 }
