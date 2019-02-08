@@ -18,7 +18,10 @@ group = "ch.leadrian.samp.kamp"
 plugins {
     antlr
     java
+    `java-library`
     maven
+    `maven-publish`
+    signing
     kotlin("jvm") version "1.3.11"
     id("com.palantir.git-version") version "0.12.0-rc2"
 }
@@ -30,6 +33,16 @@ repositories {
 val gitVersion: Closure<String> by extra
 
 version = gitVersion()
+
+tasks.register<Jar>("sourcesJar") {
+    from(sourceSets.main.get().allSource)
+    archiveClassifier.set("sources")
+}
+
+tasks.register<Jar>("javadocJar") {
+    from(tasks.javadoc)
+    archiveClassifier.set("javadoc")
+}
 
 tasks {
 
@@ -55,6 +68,53 @@ tasks {
 
 }
 
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+
+            artifact(tasks["sourcesJar"])
+            artifact(tasks["javadocJar"])
+
+            pom {
+                name.set("CIDL Kotlin")
+                description.set("The Java/Kotlin implementation of https://github.com/Zeex/cidl")
+                url.set("https://github.com/Double-O-Seven/cidl-kotlin")
+                licenses {
+                    license {
+                        name.set("The Apache License, Version 2.0")
+                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("Double-O-Seven")
+                        name.set("Adrian-Philipp Leuenberger")
+                        email.set("thewishwithin@gmail.com")
+                    }
+                }
+                scm {
+                    connection.set("scm:git:git://github.com/Double-O-Seven/cidl-kotlin.git")
+                    developerConnection.set("scm:git:ssh://github.com/Double-O-Seven/cidl-kotlin.git")
+                    url.set("https://github.com/Double-O-Seven/cidl-kotlin")
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            // change URLs to point to your repos, e.g. http://my.org/repo
+            val releasesRepoUrl = uri("$buildDir/repos/releases")
+            val snapshotsRepoUrl = uri("$buildDir/repos/snapshots")
+            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
+        }
+    }
+}
+
+signing {
+    sign(publishing.publications["mavenJava"])
+}
+
 dependencies {
 
     antlr("org.antlr", "antlr4", "4.7.1")
@@ -65,10 +125,9 @@ dependencies {
     implementation("org.antlr", "antlr4-runtime", "4.7.1")
 
     testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.4.0")
-    implementation("org.junit.jupiter", "junit-jupiter-params", "5.4.0")
-    implementation("io.mockk", "mockk", "1.8.4")
-    implementation("org.assertj", "assertj-core", "3.10.0")
+    testImplementation("org.junit.jupiter", "junit-jupiter-params", "5.4.0")
+    testImplementation("io.mockk", "mockk", "1.8.4")
+    testImplementation("org.assertj", "assertj-core", "3.10.0")
 
     testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.4.0")
 }
-
