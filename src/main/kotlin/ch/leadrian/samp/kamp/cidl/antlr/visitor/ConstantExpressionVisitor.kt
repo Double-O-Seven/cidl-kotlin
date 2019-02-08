@@ -1,7 +1,7 @@
 package ch.leadrian.samp.kamp.cidl.antlr.visitor
 
-import ch.leadrian.samp.cidl.antlr.CIDLBaseVisitor
-import ch.leadrian.samp.cidl.antlr.CIDLParser
+import ch.leadrian.samp.kamp.cidl.antlr.CIDLBaseVisitor
+import ch.leadrian.samp.kamp.cidl.antlr.CIDLParser
 import ch.leadrian.samp.kamp.cidl.exception.UnknownConstantReferenceException
 import ch.leadrian.samp.kamp.cidl.model.Types
 import ch.leadrian.samp.kamp.cidl.model.Value

@@ -1,7 +1,7 @@
 package ch.leadrian.samp.kamp.cidl.parser
 
-import ch.leadrian.samp.cidl.antlr.CIDLLexer
-import ch.leadrian.samp.cidl.antlr.CIDLParser
+import ch.leadrian.samp.kamp.cidl.antlr.CIDLLexer
+import ch.leadrian.samp.kamp.cidl.antlr.CIDLParser
 import ch.leadrian.samp.kamp.cidl.antlr.visitor.AttributeVisitor
 import ch.leadrian.samp.kamp.cidl.antlr.visitor.ConstantDeclarationVisitor
 import ch.leadrian.samp.kamp.cidl.antlr.visitor.ConstantExpressionVisitor

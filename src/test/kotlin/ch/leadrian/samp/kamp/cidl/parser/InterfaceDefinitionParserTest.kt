@@ -1,6 +1,6 @@
 package ch.leadrian.samp.kamp.cidl.parser
 
-import ch.leadrian.samp.cidl.model.*
+import ch.leadrian.samp.kamp.cidl.model.*
 import ch.leadrian.samp.kamp.cidl.model.Attribute
 import ch.leadrian.samp.kamp.cidl.model.Constant
 import ch.leadrian.samp.kamp.cidl.model.Function
