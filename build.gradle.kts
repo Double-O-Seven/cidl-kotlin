@@ -16,6 +16,7 @@ buildscript {
 group = "ch.leadrian.samp.kamp"
 
 plugins {
+    `build-scan`
     antlr
     java
     `java-library`
@@ -123,6 +124,11 @@ publishing {
 
 signing {
     sign(publishing.publications["mavenJava"])
+}
+
+buildScan {
+    termsOfServiceUrl = "https://gradle.com/terms-of-service"
+    termsOfServiceAgree = "yes"
 }
 
 dependencies {
