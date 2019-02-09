@@ -112,8 +112,8 @@ publishing {
             val releasesRepoUrl = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
             url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
             credentials {
-                val ossrhUsername: String by extra
-                val ossrhPassword: String by extra
+                val ossrhUsername: String? by extra
+                val ossrhPassword: String? by extra
                 username = ossrhUsername
                 password = ossrhPassword
             }
